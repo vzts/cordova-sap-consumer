@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Binder;
 import android.os.IBinder;
-import android.widget.Toast;
 import android.util.Log;
 
 import com.samsung.android.sdk.SsdkUnsupportedException;
@@ -17,7 +16,6 @@ public class SapConsumerService extends SAAgent {
     private static final Class<ServiceConnection> SASOCKET_CLASS = ServiceConnection.class;
     private final IBinder mBinder = new LocalBinder();
     private ServiceConnection mConnectionHandler = null;
-    Handler mHandler = new Handler();
 
     public SapConsumerService() {
         super(TAG, SASOCKET_CLASS);
@@ -61,13 +59,13 @@ public class SapConsumerService extends SAAgent {
             for (SAPeerAgent peerAgent : peerAgents)
                 requestServiceConnection(peerAgent);
         } else if (result == SAAgent.FINDPEER_DEVICE_NOT_CONNECTED) {
-            Toast.makeText(getApplicationContext(), "FINDPEER_DEVICE_NOT_CONNECTED", Toast.LENGTH_LONG).show();
-            showToast("Disconnected");
+            Log.d(TAG, "FINDPEER_DEVICE_NOT_CONNECTED");
+            Log.d(TAG, "Disconnected");
         } else if (result == SAAgent.FINDPEER_SERVICE_NOT_FOUND) {
-            Toast.makeText(getApplicationContext(), "FINDPEER_SERVICE_NOT_FOUND", Toast.LENGTH_LONG).show();
-            showToast("Disconnected");
+            Log.d(TAG, "FINDPEER_SERVICE_NOT_FOUND");
+            Log.d(TAG, "Disconnected");
         } else {
-            Toast.makeText(getApplicationContext(), "No peers have been found!", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "No peers have been found!");
         }
     }
 
@@ -82,14 +80,14 @@ public class SapConsumerService extends SAAgent {
     protected void onServiceConnectionResponse(SAPeerAgent peerAgent, SASocket socket, int result) {
         if (result == SAAgent.CONNECTION_SUCCESS) {
             this.mConnectionHandler = (ServiceConnection) socket;
-            showToast("Connected");
+            Log.d(TAG, "Connected");
         } else if (result == SAAgent.CONNECTION_ALREADY_EXIST) {
-            showToast("Connected");
-            Toast.makeText(getBaseContext(), "CONNECTION_ALREADY_EXIST", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Connected");
+            Log.d(TAG, "CONNECTION_ALREADY_EXIST");
         } else if (result == SAAgent.CONNECTION_DUPLICATE_REQUEST) {
-            Toast.makeText(getBaseContext(), "CONNECTION_DUPLICATE_REQUEST", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "CONNECTION_DUPLICATE_REQUEST");
         } else {
-            Toast.makeText(getBaseContext(), "Service Connection Failure", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Service Connection Failure");
         }
     }
 
@@ -102,18 +100,13 @@ public class SapConsumerService extends SAAgent {
     protected void onPeerAgentsUpdated(SAPeerAgent[] peerAgents, int result) {
         final SAPeerAgent[] peers = peerAgents;
         final int status = result;
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (peers != null) {
-                    if (status == SAAgent.PEER_AGENT_AVAILABLE) {
-                        Toast.makeText(getApplicationContext(), "PEER_AGENT_AVAILABLE", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "PEER_AGENT_UNAVAILABLE", Toast.LENGTH_LONG).show();
-                    }
-                }
+        if (peers != null) {
+            if (status == SAAgent.PEER_AGENT_AVAILABLE) {
+                Log.d(TAG, "PEER_AGENT_AVAILABLE");
+            } else {
+                Log.d(TAG, "PEER_AGENT_UNAVAILABLE");
             }
-        });
+        }
     }
 
     public class ServiceConnection extends SASocket {
@@ -128,12 +121,12 @@ public class SapConsumerService extends SAAgent {
         @Override
         public void onReceive(int channelId, byte[] data) {
             final String message = new String(data);
-            showToast("Received: " + message);
+            Log.d(TAG, "Received: " + message);
         }
 
         @Override
         protected void onServiceConnectionLost(int reason) {
-            showToast("Disconnected");
+            Log.d(TAG, "Disconnected");
             closeConnection();
         }
     }
@@ -157,7 +150,7 @@ public class SapConsumerService extends SAAgent {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            showToast("Sent: " + data);
+            Log.d(TAG, "Sent: " + data);
         }
         return retvalue;
     }
@@ -192,9 +185,5 @@ public class SapConsumerService extends SAAgent {
             return false;
         }
         return true;
-    }
-
-    private void showToast(final String str) {
-        mHandler.post(Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT)::show);
     }
 }

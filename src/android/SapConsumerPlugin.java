@@ -58,7 +58,7 @@ public class SapConsumerPlugin extends CordovaPlugin {
             mConsumerService.findPeers();
         } else if (ACTION_SENDDATA.equals(action)) {
             if (mIsBound && mConsumerService != null) {
-                mConsumerService.sendData("Hello~");
+                mConsumerService.sendData(args.getString(0));
             } else {
                 Log.e(TAG, "not connected yet!");
             }
