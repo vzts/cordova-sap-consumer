@@ -40,6 +40,8 @@ public class SapConsumerPlugin extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
+        
+        Log.d(TAG, "initialize called");
 
         Activity context = cordova.getActivity();
         mIsBound = context.bindService(new Intent(context, SapConsumerService.class), mConnection, Context.BIND_AUTO_CREATE);
