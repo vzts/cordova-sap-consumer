@@ -26,6 +26,9 @@ public class SapConsumerService extends SAAgent {
     @Override
     public void onCreate() {
         super.onCreate();
+        
+        Log.d(TAG, "service being created");
+        
         SA mAccessory = new SA();
         try {
             mAccessory.initialize(this);
@@ -43,6 +46,8 @@ public class SapConsumerService extends SAAgent {
              */
             stopSelf();
         }
+        
+        Log.d(TAG, "service created");
     }
 
     @Override
