@@ -1,4 +1,4 @@
-package net.trentgardner.cordova.galaxygear;
+package com.github.vzts.cordova;
 
 import java.io.IOException;
 
