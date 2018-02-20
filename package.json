@@ -1,0 +1,40 @@
+{
+  "name": "cordova-sap-consumer",
+  "version": "1.0.0",
+  "description": "Allows communication between Samsung Gear Series Tizen Web applications and Cordova applications through Samsung Accessory Protocol. Adapted from https://github.com/tgardner/cordova-galaxygear.",
+  "cordova": {
+    "id": "cordova-sap-consumer",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vzts/cordova-sap-consumer.git"
+  },
+  "keywords": [
+    "GalaxyGear",
+    "Android",
+    "Samsung",
+    "Gear",
+    "Watch",
+    "Accessory",
+    "Wearable",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-galaxygear",
+    "SAP"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "YeeChan Ko",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/vzts/cordova-sap-consumer/issues"
+  },
+  "homepage": "https://github.com/vzts/cordova-sap-consumer#readme"
+}

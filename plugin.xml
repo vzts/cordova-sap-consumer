@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-sap-consumer"
+    version="1.0.0" xmlns="http://cordova.apache.org/ns/plugins/1.0">
+
+    <name>SAP Consumer</name>
+    <license>Apache 2.0</license>
+    <description>Allows communication between Samsung Gear Series Tizen Web applications and Cordova
+        applications through Samsung Accessory Protocol. Adapted from
+        https://github.com/tgardner/cordova-galaxygear.
+    </description>
+    <author>YeeChan Ko</author>
+    <license>Apache 2.0</license>
+    <keywords>GalaxyGear, Android, Samsung, Gear, Watch, Accessory, Wearable, cordova,
+        cordova-galaxygear, SAP
+    </keywords>
+    <repo>https://github.com/vzts/cordova-sap-consumer.git</repo>
+    <issue>https://github.com/vzts/cordova-sap-consumer/issues</issue>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <platform name="android">
+        <js-module name="SapConsumer" src="www/sap-consumer.js">
+            <clobbers target="SapConsumer" />
+        </js-module>
+
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="SapConsumer">
+                <param name="android-package" value="com.github.vzts.cordova.SapConsumer" />
+            </feature>
+        </config-file>
+
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
+            <uses-permission
+                android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+            <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
+            <uses-permission android:name="com.samsung.WATCH_APP_TYPE.Companion" />
+        </config-file>
+
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+
+            <service android:name="com.github.vzts.cordova.SapConsumerService" />
+
+            <receiver
+                android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver">
+                <intent-filter>
+                    <action
+                        android:name="com.samsung.accessory.action.SERVICE_CONNECTION_REQUESTED" />
+                </intent-filter>
+            </receiver>
+
+            <receiver android:name="com.samsung.android.sdk.accessory.RegisterUponInstallReceiver">
+                <intent-filter>
+                    <action android:name="com.samsung.accessory.action.REGISTER_AGENT" />
+                </intent-filter>
+            </receiver>
+
+            <meta-data android:name="GearAppType" android:value="wgt" />
+
+            <meta-data android:name="AccessoryServicesLocation"
+                android:value="/res/xml/accessoryservices.xml" />
+
+        </config-file>
+
+        <framework custom="true" src="src/android/sapconsumer.gradle" type="gradleReference" />
+        <lib-file src="libs/accessory-v2.5.3.jar" />
+        <lib-file src="libs/sdk-v1.0.0.jar" />
+        <source-file src="xml/accessoryservices.xml" target-dir="res/xml" />
+        <source-file src="src/android/SapConsumerPlugin.java"
+            target-dir="src/com/github/vzts/cordova" />
+        <source-file src="src/android/SapConsumerService.java"
+            target-dir="src/com/github/vzts/cordova" />
+    </platform>
+</plugin>
