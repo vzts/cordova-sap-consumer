@@ -3,7 +3,7 @@
     <application name="HelloAccessoryConsumer">
         <serviceProfile
             name="helloaccessory"
-            id="/sample/hello"
+            id="/com/github/vzts/test"
             role="consumer"
             serviceImpl="com.github.vzts.cordova.SapConsumerService"
             serviceLimit="ANY"
