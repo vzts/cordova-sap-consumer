@@ -28,6 +28,7 @@
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="sapconsumer">
                 <param name="android-package" value="com.github.vzts.cordova.SapConsumerPlugin" />
+                <param name="onload" value="true" />
             </feature>
         </config-file>
 
